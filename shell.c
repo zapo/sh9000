@@ -3,8 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/wait.h>
-
-#define MAX_ARGV 100
+#include <limits.h>
 
 void prompt(int *stat) {
   if(stat != NULL) printf("%d", *stat);
@@ -39,7 +38,7 @@ int parse(char *line, char **argv) {
   char *token = NULL;
   int argc = 0;
 
-  while(argc < MAX_ARGV && (token = strsep(&line, " ")) != NULL) {
+  while(argc < ARG_MAX && (token = strsep(&line, " ")) != NULL) {
     if(strcmp(token, "") == 0) continue;
 
     argv[argc] = token;
@@ -63,7 +62,7 @@ void run(char **argv, int* stat) {
 }
 
 int main() {
-  char *argv[MAX_ARGV] = {NULL};
+  char *argv[ARG_MAX] = {NULL};
   int argc = 0;
   char *line = NULL;
   size_t linelen = 0;
